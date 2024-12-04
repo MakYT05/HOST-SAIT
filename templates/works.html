@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <title>КАФЕ</title>
+
+</head>
+
+<header>
+    <h1>Кафе «Вкусный уголок»</h1>
+    <nav>
+        <ul class="menu">
+            <li><a href="{{ url_for('sait', filename='main.html') }}">Главная</a></li>
+            <li><a href="#">Меню</a>
+                <ul class="dropdown">
+                    <li><a href="zakuski.html">Закуски</a></li>
+                    <li><a href="eda.html">Основные блюда</a></li>
+                    <li><a href="decerti.html">Десерты</a></li>
+                    <li><a href="drink.html">Напитки</a></li>
+                </ul>
+            </li>
+            <li><a href="about.html">О нас</a></li>
+            <li><a href="contact.html">Контакты</a></li>
+            <li><a href="bron.html">Бронирование</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <h2>Добавить отзыв</h2>
+    <form action="/add" method="post">
+        <input type="text" name="task" placeholder="Введите новый отзыв" required>
+        <button type="submit">Добавить</button>
+    </form>
+
+    <h2>Отзывы</h2>
+    <ul>
+        {% for task in tasks %}
+            <li class="{% if task['выполнено'] %}completed{% endif %}">
+                {{ task['задача'] }}
+                <a href="{{ url_for('update_task', task_id=task['id']) }}">
+                    {% if task['оценить'] %}Отменить оценивание{% else %}Выполнено{% endif %}
+                </a>
+                <a href="{{ url_for('delete_task', task_id=task['id']) }}">Удалить</a>
+            </li>
+        {% endfor %}
+    </ul>
+</main>
+
+<footer>
+    <img src="{{ url_for('static', filename='image/image.png') }}" alt="Кафе" class="full-width-image">
+</footer>
+</body>
+</html>
